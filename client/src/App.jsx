@@ -1,4 +1,5 @@
 import './App.css';
+import ChatRoom from './pages/ChatRoom';
 import Join from './pages/Join';
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <div className='App'>
       <header>gRCP 채팅 클라이언트</header>
       <Join />
+      <ChatRoom />
     </div>
   );
 }
