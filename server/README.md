@@ -12,7 +12,7 @@ gRPC 통신 서버
 
 
 
-proto를 사용한 pb 생성 방법
+python사용한 pb 생성 방법
 
 <pre><code>python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. server.proto</code></pre>
 
