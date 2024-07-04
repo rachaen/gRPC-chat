@@ -2,15 +2,42 @@ syntax = "proto3";
 
 package server;
 
-service Server{
-  rpc GetServerResponse(Message) returns (MessageResponse) {}
+service UserService {
+  rpc Register(UserInfo) returns (UserResponse);
+  rpc Login(UserInfo) returns (UserResponse);
+  rpc Logout(UserInfo) returns (UserResponse);
 }
 
-message Message{
-  string message = 1;
+service MessageService {
+  rpc SendMessage(Message) returns (MessageResponse);
+  rpc StreamMessages(Empty) returns (stream Message);
+  rpc NotifyUserJoin(Empty) returns (stream UserJoin);
+  rpc NotifyUserLeave(Empty) returns (stream UserLeave);
+}
+
+message UserInfo{
+  string username = 1;
+}
+
+message UserResponse{
+  string status = 1;
+}
+
+message Message {
+  string username = 1;
+  string text = 2;
 }
 
 message MessageResponse{
-  string message = 1;
-  bool received = 2;
+  string status =1;
 }
+
+message UserJoin{
+  string username = 1;
+}
+
+message UserLeave{
+  string username =1;
+}
+
+message Empty {}

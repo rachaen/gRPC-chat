@@ -30,7 +30,7 @@ if _version_not_supported:
     )
 
 
-class ServerStub(object):
+class UserServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -39,43 +39,75 @@ class ServerStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetServerResponse = channel.unary_unary(
-                '/server.Server/GetServerResponse',
-                request_serializer=server__pb2.Message.SerializeToString,
-                response_deserializer=server__pb2.MessageResponse.FromString,
+        self.Register = channel.unary_unary(
+                '/server.UserService/Register',
+                request_serializer=server__pb2.UserInfo.SerializeToString,
+                response_deserializer=server__pb2.UserResponse.FromString,
+                _registered_method=True)
+        self.Login = channel.unary_unary(
+                '/server.UserService/Login',
+                request_serializer=server__pb2.UserInfo.SerializeToString,
+                response_deserializer=server__pb2.UserResponse.FromString,
+                _registered_method=True)
+        self.Logout = channel.unary_unary(
+                '/server.UserService/Logout',
+                request_serializer=server__pb2.UserInfo.SerializeToString,
+                response_deserializer=server__pb2.UserResponse.FromString,
                 _registered_method=True)
 
 
-class ServerServicer(object):
+class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetServerResponse(self, request, context):
+    def Register(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Login(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Logout(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_ServerServicer_to_server(servicer, server):
+def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetServerResponse': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetServerResponse,
-                    request_deserializer=server__pb2.Message.FromString,
-                    response_serializer=server__pb2.MessageResponse.SerializeToString,
+            'Register': grpc.unary_unary_rpc_method_handler(
+                    servicer.Register,
+                    request_deserializer=server__pb2.UserInfo.FromString,
+                    response_serializer=server__pb2.UserResponse.SerializeToString,
+            ),
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
+                    request_deserializer=server__pb2.UserInfo.FromString,
+                    response_serializer=server__pb2.UserResponse.SerializeToString,
+            ),
+            'Logout': grpc.unary_unary_rpc_method_handler(
+                    servicer.Logout,
+                    request_deserializer=server__pb2.UserInfo.FromString,
+                    response_serializer=server__pb2.UserResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'server.Server', rpc_method_handlers)
+            'server.UserService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('server.Server', rpc_method_handlers)
+    server.add_registered_method_handlers('server.UserService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class Server(object):
+class UserService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetServerResponse(request,
+    def Register(request,
             target,
             options=(),
             channel_credentials=None,
@@ -88,9 +120,264 @@ class Server(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/server.Server/GetServerResponse',
+            '/server.UserService/Register',
+            server__pb2.UserInfo.SerializeToString,
+            server__pb2.UserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Login(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/server.UserService/Login',
+            server__pb2.UserInfo.SerializeToString,
+            server__pb2.UserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Logout(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/server.UserService/Logout',
+            server__pb2.UserInfo.SerializeToString,
+            server__pb2.UserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+
+class MessageServiceStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.SendMessage = channel.unary_unary(
+                '/server.MessageService/SendMessage',
+                request_serializer=server__pb2.Message.SerializeToString,
+                response_deserializer=server__pb2.MessageResponse.FromString,
+                _registered_method=True)
+        self.StreamMessages = channel.unary_stream(
+                '/server.MessageService/StreamMessages',
+                request_serializer=server__pb2.Empty.SerializeToString,
+                response_deserializer=server__pb2.Message.FromString,
+                _registered_method=True)
+        self.NotifyUserJoin = channel.unary_stream(
+                '/server.MessageService/NotifyUserJoin',
+                request_serializer=server__pb2.Empty.SerializeToString,
+                response_deserializer=server__pb2.UserJoin.FromString,
+                _registered_method=True)
+        self.NotifyUserLeave = channel.unary_stream(
+                '/server.MessageService/NotifyUserLeave',
+                request_serializer=server__pb2.Empty.SerializeToString,
+                response_deserializer=server__pb2.UserLeave.FromString,
+                _registered_method=True)
+
+
+class MessageServiceServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def SendMessage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamMessages(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NotifyUserJoin(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NotifyUserLeave(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_MessageServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'SendMessage': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendMessage,
+                    request_deserializer=server__pb2.Message.FromString,
+                    response_serializer=server__pb2.MessageResponse.SerializeToString,
+            ),
+            'StreamMessages': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamMessages,
+                    request_deserializer=server__pb2.Empty.FromString,
+                    response_serializer=server__pb2.Message.SerializeToString,
+            ),
+            'NotifyUserJoin': grpc.unary_stream_rpc_method_handler(
+                    servicer.NotifyUserJoin,
+                    request_deserializer=server__pb2.Empty.FromString,
+                    response_serializer=server__pb2.UserJoin.SerializeToString,
+            ),
+            'NotifyUserLeave': grpc.unary_stream_rpc_method_handler(
+                    servicer.NotifyUserLeave,
+                    request_deserializer=server__pb2.Empty.FromString,
+                    response_serializer=server__pb2.UserLeave.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'server.MessageService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('server.MessageService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class MessageService(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def SendMessage(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/server.MessageService/SendMessage',
             server__pb2.Message.SerializeToString,
             server__pb2.MessageResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamMessages(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/server.MessageService/StreamMessages',
+            server__pb2.Empty.SerializeToString,
+            server__pb2.Message.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def NotifyUserJoin(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/server.MessageService/NotifyUserJoin',
+            server__pb2.Empty.SerializeToString,
+            server__pb2.UserJoin.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def NotifyUserLeave(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/server.MessageService/NotifyUserLeave',
+            server__pb2.Empty.SerializeToString,
+            server__pb2.UserLeave.FromString,
             options,
             channel_credentials,
             insecure,
