@@ -30,7 +30,7 @@ proto.server = require('./server_pb.js');
  * @struct
  * @final
  */
-proto.server.ServerClient =
+proto.server.UserServiceClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -56,7 +56,242 @@ proto.server.ServerClient =
  * @struct
  * @final
  */
-proto.server.ServerPromiseClient =
+proto.server.UserServicePromiseClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.UserInfo,
+ *   !proto.server.UserResponse>}
+ */
+const methodDescriptor_UserService_Register = new grpc.web.MethodDescriptor(
+  '/server.UserService/Register',
+  grpc.web.MethodType.UNARY,
+  proto.server.UserInfo,
+  proto.server.UserResponse,
+  /**
+   * @param {!proto.server.UserInfo} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.UserResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.server.UserResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.server.UserServiceClient.prototype.register =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/server.UserService/Register',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Register,
+      callback);
+};
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.server.UserResponse>}
+ *     Promise that resolves to the response
+ */
+proto.server.UserServicePromiseClient.prototype.register =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/server.UserService/Register',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Register);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.UserInfo,
+ *   !proto.server.UserResponse>}
+ */
+const methodDescriptor_UserService_Login = new grpc.web.MethodDescriptor(
+  '/server.UserService/Login',
+  grpc.web.MethodType.UNARY,
+  proto.server.UserInfo,
+  proto.server.UserResponse,
+  /**
+   * @param {!proto.server.UserInfo} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.UserResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.server.UserResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.server.UserServiceClient.prototype.login =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/server.UserService/Login',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Login,
+      callback);
+};
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.server.UserResponse>}
+ *     Promise that resolves to the response
+ */
+proto.server.UserServicePromiseClient.prototype.login =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/server.UserService/Login',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Login);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.UserInfo,
+ *   !proto.server.UserResponse>}
+ */
+const methodDescriptor_UserService_Logout = new grpc.web.MethodDescriptor(
+  '/server.UserService/Logout',
+  grpc.web.MethodType.UNARY,
+  proto.server.UserInfo,
+  proto.server.UserResponse,
+  /**
+   * @param {!proto.server.UserInfo} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.UserResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.server.UserResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.server.UserServiceClient.prototype.logout =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/server.UserService/Logout',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Logout,
+      callback);
+};
+
+
+/**
+ * @param {!proto.server.UserInfo} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.server.UserResponse>}
+ *     Promise that resolves to the response
+ */
+proto.server.UserServicePromiseClient.prototype.logout =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/server.UserService/Logout',
+      request,
+      metadata || {},
+      methodDescriptor_UserService_Logout);
+};
+
+
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.server.MessageServiceClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.server.MessageServicePromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -80,8 +315,8 @@ proto.server.ServerPromiseClient =
  *   !proto.server.Message,
  *   !proto.server.MessageResponse>}
  */
-const methodDescriptor_Server_GetServerResponse = new grpc.web.MethodDescriptor(
-  '/server.Server/GetServerResponse',
+const methodDescriptor_MessageService_SendMessage = new grpc.web.MethodDescriptor(
+  '/server.MessageService/SendMessage',
   grpc.web.MethodType.UNARY,
   proto.server.Message,
   proto.server.MessageResponse,
@@ -106,13 +341,13 @@ const methodDescriptor_Server_GetServerResponse = new grpc.web.MethodDescriptor(
  * @return {!grpc.web.ClientReadableStream<!proto.server.MessageResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.server.ServerClient.prototype.getServerResponse =
+proto.server.MessageServiceClient.prototype.sendMessage =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/server.Server/GetServerResponse',
+      '/server.MessageService/SendMessage',
       request,
       metadata || {},
-      methodDescriptor_Server_GetServerResponse,
+      methodDescriptor_MessageService_SendMessage,
       callback);
 };
 
@@ -125,13 +360,181 @@ proto.server.ServerClient.prototype.getServerResponse =
  * @return {!Promise<!proto.server.MessageResponse>}
  *     Promise that resolves to the response
  */
-proto.server.ServerPromiseClient.prototype.getServerResponse =
+proto.server.MessageServicePromiseClient.prototype.sendMessage =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/server.Server/GetServerResponse',
+      '/server.MessageService/SendMessage',
       request,
       metadata || {},
-      methodDescriptor_Server_GetServerResponse);
+      methodDescriptor_MessageService_SendMessage);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.Empty,
+ *   !proto.server.Message>}
+ */
+const methodDescriptor_MessageService_StreamMessages = new grpc.web.MethodDescriptor(
+  '/server.MessageService/StreamMessages',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.server.Empty,
+  proto.server.Message,
+  /**
+   * @param {!proto.server.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.Message.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.Message>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServiceClient.prototype.streamMessages =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/StreamMessages',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_StreamMessages);
+};
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.Message>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServicePromiseClient.prototype.streamMessages =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/StreamMessages',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_StreamMessages);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.Empty,
+ *   !proto.server.UserJoin>}
+ */
+const methodDescriptor_MessageService_NotifyUserJoin = new grpc.web.MethodDescriptor(
+  '/server.MessageService/NotifyUserJoin',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.server.Empty,
+  proto.server.UserJoin,
+  /**
+   * @param {!proto.server.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.UserJoin.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserJoin>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServiceClient.prototype.notifyUserJoin =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/NotifyUserJoin',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_NotifyUserJoin);
+};
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserJoin>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServicePromiseClient.prototype.notifyUserJoin =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/NotifyUserJoin',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_NotifyUserJoin);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.server.Empty,
+ *   !proto.server.UserLeave>}
+ */
+const methodDescriptor_MessageService_NotifyUserLeave = new grpc.web.MethodDescriptor(
+  '/server.MessageService/NotifyUserLeave',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.server.Empty,
+  proto.server.UserLeave,
+  /**
+   * @param {!proto.server.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.server.UserLeave.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserLeave>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServiceClient.prototype.notifyUserLeave =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/NotifyUserLeave',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_NotifyUserLeave);
+};
+
+
+/**
+ * @param {!proto.server.Empty} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.server.UserLeave>}
+ *     The XHR Node Readable Stream
+ */
+proto.server.MessageServicePromiseClient.prototype.notifyUserLeave =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/server.MessageService/NotifyUserLeave',
+      request,
+      metadata || {},
+      methodDescriptor_MessageService_NotifyUserLeave);
 };
 
 
