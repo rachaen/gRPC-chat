@@ -1,0 +1,13 @@
+server/proto/__pycache__/__init__.cpython-312.pyc
+server/proto/__pycache__/server_pb2.cpython-312.pyc
+server/proto/__pycache__/server_pb2_grpc.cpython-312.pyc
+server/services/__pycache__/__init__.cpython-312.pyc
+server/services/__pycache__/MessageService.cpython-312.pyc
+server/services/__pycache__/UserService.cpython-312.pyc
+.idea/grpc-chat.iml
+.idea/material_theme_project_new.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml
