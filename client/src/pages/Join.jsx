@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { UserServiceClient } from '../server_grpc_web_pb';
+import { UserInfo } from '../server_pb';
 import { useStore } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,14 +10,28 @@ export default function Join() {
   const inputRef = useRef();
   const updateNickname = useStore((state) => state.updateNickname);
   const navigator = useNavigate();
+
   const handleSubmit = () => {
     const _nickname = inputRef.current.value;
     updateNickname(_nickname);
-    navigator('/chat');
+    const userInfo = new UserInfo();
+    userInfo.setUsername(_nickname);
+
+    client.login(userInfo, {}, (err, response) => {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      console.log(response.getStatus());
+      if (response.getStatus() === 'success') {
+        navigator('/chat');
+      } else {
+        alert('Login failed');
+      }
+    });
   };
 
   const handleKeyDown = (e) => {
-    console.log(e.key);
     if (e.key === 'Enter') {
       handleSubmit();
     }
