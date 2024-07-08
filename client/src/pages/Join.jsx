@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
+// import { UserServiceClient } from '../server_grpc_web_pb';
+import { useStore } from '../store/store';
+
+// const client = new UserServiceClient('http://localhost:8080', null, null);
 
 export default function Join() {
-  const [nickname, setNickname] = useState('');
-
-  const handleInputChange = (e) => {
-    setNickname(e.target.value);
-  };
+  const inputRef = useRef();
+  const updateNickname = useStore((state) => state.updateNickname);
 
   const handleSubmit = () => {
-    alert(`Joining as: ${nickname}`);
+    const _nickname = inputRef.current.value;
+    updateNickname(_nickname);
   };
 
   return (
@@ -18,8 +20,7 @@ export default function Join() {
         type='text'
         className='mb-4 p-2 border border-gray-300 rounded'
         placeholder='닉네임을 입력하세요'
-        value={nickname}
-        onChange={handleInputChange}
+        ref={inputRef}
       />
       <button onClick={handleSubmit} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
         입장하기
