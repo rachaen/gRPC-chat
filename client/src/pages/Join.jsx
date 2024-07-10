@@ -4,7 +4,7 @@ import { UserInfo } from '../server_pb';
 import { useStore } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
-const client = new UserServiceClient('http://localhost:8080', null, null);
+const client = new UserServiceClient('http://localhost:50051', null, null);
 
 export default function Join() {
   const inputRef = useRef();
