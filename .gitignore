@@ -11,3 +11,5 @@ server/services/__pycache__/UserService.cpython-312.pyc
 .idea/vcs.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
+*.xml
+*.iml
