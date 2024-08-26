@@ -22,13 +22,7 @@ def serve():
     server.add_insecure_port('[::]:50051')
     server.start()
     logging.info('Server started on port 50051')
-
-    try:
-        while True:
-            time.sleep(86400)
-    except KeyboardInterrupt:
-        logging.info('Stopping server...')
-        server.stop(0)
+    server.wait_for_termination()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

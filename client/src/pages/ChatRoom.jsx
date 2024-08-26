@@ -3,7 +3,9 @@ import { MessageServiceClient } from '../server_grpc_web_pb';
 import { Message, Empty } from '../server_pb';
 import { useStore } from '../store/store';
 
-const client = new MessageServiceClient('http://localhost:50051', null, null);
+
+const client = new MessageServiceClient('http://localhost:9001', null, null);
+//const client = new MessageServiceClient('http://localhost:50051', null, null);
 
 export default function ChatRoom() {
   /*   const [messages, setMessages] = useState([
