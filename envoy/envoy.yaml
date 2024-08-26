@@ -30,6 +30,7 @@ static_resources:
                 allow_headers: keep-alive,user-agent,cache-control,content-type,authorization
                 max_age: "86400"
                 expose_headers: content-length,content-type
+
           http_filters:
           - name: envoy.filters.http.cors
           - name: envoy.filters.http.router
@@ -50,7 +51,8 @@ static_resources:
                 port_value: 50051
 
 admin:
-  access_log_path: "/dev/null"
+  access_log_path: "/dev/stdout"
+
   address:
     socket_address:
       address: 0.0.0.0

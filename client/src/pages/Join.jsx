@@ -21,8 +21,17 @@ export default function Join() {
         },
         body: JSON.stringify({ username: _nickname }),
       });
+      const text = await response.text();
+      console.log('Response Text:', text);
 
-      const data = await response.json();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError);
+        alert('Unexpected response format');
+        return;
+      }
 
       if (data.status === 'success') {
         navigator('/chat');
