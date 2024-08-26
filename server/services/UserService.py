@@ -1,10 +1,8 @@
-import sys, os
+import os
+import sys
+import logging
 
-import grpc
-from concurrent import futures
-import time
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'proto'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', "proto"))
 
 import server_pb2
 import server_pb2_grpc
@@ -12,12 +10,18 @@ import server_pb2_grpc
 
 class UserService(server_pb2_grpc.UserServiceServicer):
     def Register(self, request, context):
+        logging.info(f'Register request received: {request}')
+
         return server_pb2.UserResponse(status="User registered")
 
     def Login(self, request, context):
+        logging.info(f'Login request received: {request}')
+
         return server_pb2.UserResponse(status="User logged in")
 
     def Logout(self, request, context):
+        logging.info(f'Logout request received: {request}')
+
         return server_pb2.UserResponse(status="User logged out")
 
 # class UserService(server_pb2_grpc.UserServiceServicer):

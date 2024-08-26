@@ -3,7 +3,7 @@ static_resources:
   - name: listener_0
     address:
       socket_address:
-        address: 0.0.0.0
+        address: localhost
         port_value: 8080
     filter_chains:
     - filters:
@@ -55,5 +55,5 @@ admin:
 
   address:
     socket_address:
-      address: 0.0.0.0
+      address: localhost
       port_value: 9901
