@@ -1,36 +1,4 @@
 static_resources:
-  listeners:
-  - name: listener_0
-    address:
-      socket_address: { address: 0.0.0.0, port_value: 8080 }
-    filter_chains:
-    - filters:
-      - name: envoy.filters.network.http_connection_manager
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-          stat_prefix: ingress_http
-          codec_type: AUTO
-          route_config:
-            name: local_route
-            virtual_hosts:
-            - name: backend
-              domains: ["*"]
-              routes:
-              - match:
-                  prefix: "/"
-                route:
-                  cluster: grpc_service
-              cors:
-                allow_origin_string_match:
-                - exact: "*"
-                allow_methods: "GET, PUT, DELETE, POST, OPTIONS"
-                allow_headers: "Authorization, Content-Type"
-                expose_headers: "Authorization, Content-Type"
-                max_age: "3600"
-          http_filters:
-          - name: envoy.filters.http.cors
-          - name: envoy.filters.http.router
-
   clusters:
   - name: grpc_service
     connect_timeout: 0.25s
@@ -38,11 +6,35 @@ static_resources:
     lb_policy: ROUND_ROBIN
     hosts:
     - socket_address: { address: 127.0.0.1, port_value: 50051 }
-
-admin:
-  access_log_path: "/dev/stdout"
-
-  address:
-    socket_address:
-      address: localhost
-      port_value: 9901
+  listeners:
+  - name: listener_0
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 8080 }
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        config:
+          codec_type: AUTO
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains: ["*"]
+              cors:
+                allow_methods: "GET, PUT, DELETE, POST, OPTIONS"
+                max_age: "3600"
+                allow_origin_string_match:
+                - exact: "*"
+                expose_headers: "Authorization, Content-Type"
+                allow_headers: "Authorization, Content-Type"
+              routes:
+              - match: { prefix: "/" }
+                route: { cluster: grpc_service }
+          http_filters:
+          - name: envoy.filters.http.cors
+          - name: envoy.filters.http.router
+  admin:
+    access_log_path: "/dev/stdout"
+    address:
+      socket_address: { address: "localhost", port_value: 9901 }
