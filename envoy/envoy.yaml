@@ -1,7 +1,3 @@
-admin:
-  address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }
-
 static_resources:
   listeners:
     - name: listener_0
@@ -12,14 +8,13 @@ static_resources:
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-                codec_type: auto
+                codec_type: AUTO
                 stat_prefix: ingress_http
-                stream_idle_timeout: 0s
                 route_config:
                   name: local_route
                   virtual_hosts:
                     - name: local_service
-                      domains: [ "*" ]
+                      domains: ["*"]
                       routes:
                         - match: { prefix: "/" }
                           route:
@@ -36,7 +31,7 @@ static_resources:
                         expose_headers: custom-header-1,grpc-status,grpc-message
                         allow_credentials: true
           http_filters:
-            - name: envoy.grpc_web
+            - name: envoy.filters.http.grpc_web
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
             - name: envoy.filters.http.router
@@ -45,13 +40,13 @@ static_resources:
   clusters:
     - name: chat_service
       connect_timeout: 0.25s
-      type: logical_dns
+      type: LOGICAL_DNS
       typed_extension_protocol_options:
         envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
         "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
         explicit_http_config:
           http2_protocol_options: { }
-      lb_policy: round_robin
+      lb_policy: ROUND_ROBIN
       load_assignment:
         cluster_name: chat_service
         endpoints:
