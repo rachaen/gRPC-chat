@@ -1,34 +1,47 @@
 import React, { useRef } from 'react';
-import { UserServiceClient } from '../server_grpc_web_pb';
-import { UserInfo } from '../server_pb';
 import { useStore } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
-const client = new UserServiceClient('http://localhost:50051', null, null);
+const ENVOY_API_URL = 'http://localhost:8080';
 
 export default function Join() {
   const inputRef = useRef();
   const updateNickname = useStore((state) => state.updateNickname);
   const navigator = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const _nickname = inputRef.current.value;
     updateNickname(_nickname);
-    const userInfo = new UserInfo();
-    userInfo.setUsername(_nickname);
 
-    client.login(userInfo, {}, (err, response) => {
-      if (err) {
-        console.error(err.message);
+    try {
+      const response = await fetch(`${ENVOY_API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: _nickname }),
+      });
+      const text = await response.text();
+      console.log('Response Text:', text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError);
+        alert('Unexpected response format');
         return;
       }
-      console.log(response.getStatus());
-      if (response.getStatus() === 'success') {
+
+      if (data.status === 'success') {
         navigator('/chat');
       } else {
         alert('Login failed');
       }
-    });
+    } catch (err) {
+      console.error('Error:', err);
+      alert('An error occurred during login');
+    }
   };
 
   const handleKeyDown = (e) => {

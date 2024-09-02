@@ -1,8 +1,9 @@
-import sys, os
+import logging
+import os
+import sys
 
 import grpc
-from concurrent import futures
-import time
+from setuptools import logging
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'proto'))
 
@@ -17,6 +18,8 @@ class MessageService(server_pb2_grpc.MessageServiceServicer):
         self.user_leaves = []
 
     def SendMessage(self, request, context):
+        logging.info(f'SendMessage request received: {request}')
+
         try:
             self.messages.append(request)
             return server_pb2.MessageResponse(status="Message received")
@@ -26,13 +29,19 @@ class MessageService(server_pb2_grpc.MessageServiceServicer):
             return server_pb2.MessageResponse(status="Error receive message!!!!")
 
     def StreamMessages(self, request, context):
+        logging.info('StreamMessages request received')
+
         for message in self.messages:
             yield message
 
     def NotifyUserJoin(self, request, context):
+        logging.info('NotifyUserJoin request received')
+
         for user in self.user_joins:
             yield user
 
     def NotifyUserLeave(self, request, context):
+        logging.info('NotifyUserLeave request received')
+
         for user in self.user_leaves:
             yield user

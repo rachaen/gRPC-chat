@@ -3,15 +3,10 @@ import { MessageServiceClient } from '../server_grpc_web_pb';
 import { Message, Empty } from '../server_pb';
 import { useStore } from '../store/store';
 
-const client = new MessageServiceClient('http://localhost:50051', null, null);
+
+const client = new MessageServiceClient('http://localhost:8080', null, null);
 
 export default function ChatRoom() {
-  /*   const [messages, setMessages] = useState([
-    { type: 'system', message: '강아지님이 입장하셨습니다.', timestamp: '16:30' },
-    { type: 'message', nickname: '강아지', message: '안녕하세요!', timestamp: '16:31' },
-    { type: 'message', nickname: '고양이', message: '반갑습니다!', timestamp: '16:32' },
-    { type: 'system', message: '고양이님이 퇴장하셨습니다.', timestamp: '16:32' },
-  ]); */
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const messageRef = useRef();

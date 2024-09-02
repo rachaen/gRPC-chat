@@ -19,15 +19,14 @@ def serve():
     server_pb2_grpc.add_UserServiceServicer_to_server(UserService(), server)
     server_pb2_grpc.add_MessageServiceServicer_to_server(MessageService(), server)
 
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('0.0.0.0:50051')
     server.start()
     logging.info('Server started on port 50051')
 
     try:
-        while True:
-            time.sleep(86400)
-    except KeyboardInterrupt:
-        logging.info('Stopping server...')
+        server.wait_for_termination()
+    except Exception as e:
+        logging.error(f'Exception occurred: {e}')
         server.stop(0)
 
 if __name__ == '__main__':

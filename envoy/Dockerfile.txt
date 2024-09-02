@@ -1,0 +1,8 @@
+# Dockerfile
+FROM envoyproxy/envoy:v1.20.0
+
+# 복사할 Envoy 설정 파일을 지정합니다.
+COPY envoy.yaml /etc/envoy/envoy.yaml
+
+# Envoy를 실행하기 위한 명령을 지정합니다.
+CMD ["envoy", "-c", "/etc/envoy/envoy.yaml"]
