@@ -1,0 +1,25 @@
+# Docker Desktop 없이도 사용 가능:
+#   - WSL2 Ubuntu 안에 docker.io + docker compose v2 설치 후 이 파일 실행
+#   - 또는 Podman + "podman compose" (호환)
+#
+# Git에는 이미지 파일을 넣지 않습니다. 첫 실행 시 레지스트리에서 이미지를 받습니다(무료).
+#
+# 전제: gRPC 서버(50051)는 "호스트"에서 떠 있어야 합니다.
+#   → WSL에서 compose를 돌리면, 같은 WSL 터미널에서 먼저 npm run grpc:dev 권장.
+#
+# 실행 (저장소 루트, WSL 또는 Linux):
+#   docker compose up envoy
+#
+# 종료: Ctrl+C 또는 다른 터미널에서 docker compose down
+
+services:
+  envoy:
+    image: docker.io/envoyproxy/envoy:v1.31-latest
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+    volumes:
+      - ./envoy/envoy.docker-host.yaml:/etc/envoy/envoy.yaml:ro
+    extra_hosts:
+      # Linux Docker Engine: 컨테이너에서 host.docker.internal → 호스트 머신(WSL 등)
+      - "host.docker.internal:host-gateway"

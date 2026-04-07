@@ -1,0 +1,13 @@
+{
+  "name": "grpc-chat",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "grpc:dev": "npm run dev -w @grpc-chat/grpc-server",
+    "web:dev": "npm run dev -w @grpc-chat/web",
+    "test": "npm run build -w @grpc-chat/grpc-server && npm run lint -w @grpc-chat/web && npm run build -w @grpc-chat/web"
+  }
+}

@@ -1,0 +1,2 @@
+# Envoy YAML은 CRLF면 들여쓰기/파싱 이슈가 날 수 있음 → LF 고정
+envoy/*.yaml text eol=lf
